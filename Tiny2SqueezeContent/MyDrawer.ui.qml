@@ -133,7 +133,7 @@ Rectangle {
                     myDrawer.serverIP = editServerIP.text
                     myDrawer.cliPort = editCliPort.text
                     myDrawer.jsonPort = editServerPort.text
-                    console.log("myDrawer.serverIP:", myDrawer.serverIP, "editServerIP.text", editServerIP.text)
+                    // console.log("myDrawer.serverIP:", myDrawer.serverIP, "editServerIP.text", editServerIP.text)
                     myDrawer.drawerClose()
                 }
             }

@@ -44,9 +44,9 @@
 // C++
 
 // uncomment the following to turn on debugging for a particular file
-#define SQUEEZESERVER_DEBUG
+// #define SQUEEZESERVER_DEBUG
 // #define SLIMCLI_DEBUG
-#define SLIMJSON_DEBUG
+// #define SLIMJSON_DEBUG
 // #define SLIMP3PLAYER_DEBUG
 // #define PLAYERMODEL_DEBUG
 // #define SONGMODEL_DEBUG

@@ -49,7 +49,7 @@ Item {
     width: root.source?.width
     height: root.source?.height
 
-    //Component.onCompleted: console.log("Layer Blur created!")
+    //Component.onCompleted: // console.log("Layer Blur created!")
 
     ShaderEffectSource {
         id: shaderEffectSource

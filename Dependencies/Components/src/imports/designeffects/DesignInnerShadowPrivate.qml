@@ -53,7 +53,7 @@ Item {
     width: root.source.width
     height: root.source.height
 
-    //Component.onCompleted: console.log("Inner Shadow created!")
+    //Component.onCompleted: // console.log("Inner Shadow created!")
 
     onSourceRotationChanged: root.calculateOffset()
     onSpreadChanged: root.calculateOffset()

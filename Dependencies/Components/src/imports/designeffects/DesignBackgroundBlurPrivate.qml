@@ -83,7 +83,7 @@ Item {
         root.targetRect = root.background.mapFromItem(root.source, tRect)
     }
 
-    //Component.onCompleted: console.log("Background Blur created!")
+    //Component.onCompleted: // console.log("Background Blur created!")
 
     // TODO
     // Check if target and background overlap

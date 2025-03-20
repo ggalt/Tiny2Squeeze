@@ -30,17 +30,27 @@ Window {
 
     function setupServer() {
         SqueezeServer.init(mainWindow.serverIP, mainWindow.jsonPort, mainWindow.cliPort);
-        console.log("starting up server", mainWindow.serverIP, mainWindow.jsonPort, mainWindow.cliPort)
+        // console.log("starting up server", mainWindow.serverIP, mainWindow.jsonPort, mainWindow.cliPort)
     }
 
     Timer {
         id: songTimer
         interval: 1000
         running: false
+        repeat: true
         onTriggered: {
             songTime = songTime + 1.0
             mainScreen.songProgress = songTime / songDuration
-            console.log(songTime / songDuration)
+
+            function formatTime(totalSeconds) {
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = Math.floor(totalSeconds % 60);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+            mainScreen.songTimeRemaining = formatTime(songDuration - songTime)
+            // console.log(songTime, songDuration, songTime / songDuration)
+            // var timeleft = parseInt(songDuration) - parseInt(songTime)
+            // console.log(timeleft/60,":",timeleft%60)
         }
     }
 
@@ -60,7 +70,7 @@ Window {
     }
 
     function openDrawer() {
-        console.log("this is opening the drawer")
+        // console.log("this is opening the drawer")
         drawer.open()
     }
 
@@ -75,24 +85,23 @@ Window {
     Connections {
         target: SqueezeServer
         function onSetUINowPlaying(imageURL, songTitle, albumTitle, artistName) {
-            console.log("caught by app:", imageURL, songTitle, albumTitle, artistName)
+            // console.log("caught by app:", imageURL, songTitle, albumTitle, artistName)
             mainScreen.artist = artistName
             mainScreen.album = albumTitle
             mainScreen.title = songTitle
             mainScreen.artworkID = "http://"+mainWindow.serverIP+":"+mainWindow.jsonPort+"/music/"+imageURL+"/cover.jpg"
-            songTimer.restart()
-            if( mainScreen.isPaused ) {
-                songTimer.stop()
-            }
-
-            console.log(mainScreen.artworkID)
+            // songTimer.restart()
+            // if( mainScreen.isPaused ) {
+            //     songTimer.stop()
+            // }
+            // console.log(mainScreen.artworkID)
         }
     }
 
     Connections {
         target: SqueezeServer
         function onServerInitialized( playerCount ) {
-            console.log("SERVER INITIALIZED")
+            // console.log("SERVER INITIALIZED")
             if( currentPlayerMac.length > 0 ) {
                 SqueezeServer.setActivePlayer( mainWindow.currentPlayerMac )
             }
@@ -104,21 +113,21 @@ Window {
         function onPlayerAdded( pName, mac ) {
             var playerObj = pName+":"+mac
             mainWindow.playerList.append( { key:mac, value:pName })
-            console.log("player:", playerObj)
+            // console.log("player:", playerObj)
         }
     }
 
     Connections {
         target: SqueezeServer
         function onSetUIMute( isMuted ) {
-            console.log("mute")
+            // console.log("mute")
         }
     }
 
     Connections {
         target: SqueezeServer
         function onSetUIPlayMode( mode ) {
-            console.log("Player Mode:", mode)
+            // console.log("Player Mode:", mode)
             if( mode === "stop" || mode === "pause" ) {
                 mainScreen.isPaused = true
                 songTimer.stop()
@@ -133,15 +142,23 @@ Window {
         target: SqueezeServer
         function onSetUIVolume( vol ) {
             mainScreen.volume = vol/100.00
-            console.log("Volume is:", vol, (vol/100.00))
+            // console.log("Volume is:", vol, (vol/100.00))
         }
     }
 
     Connections {
         target: SqueezeServer
-        function onSetUISongDuration( songDuration ) {
+        function onSetUISongProgress( songDuration, songTime ) {
             mainWindow.songDuration = songDuration
+            mainWindow.songTime = songTime
             mainScreen.songProgress = mainWindow.songTime / mainWindow.songDuration
+            // songTimer.restart()
+            if( mainScreen.isPaused ) {
+                songTimer.stop()
+            } else {
+                songTimer.start()
+            }
+            console.log("song duration:", mainWindow.songDuration, "song time:", mainWindow.songTime)
         }
     }
 
@@ -165,7 +182,7 @@ Window {
         target: mainScreen
         function onPauseBtnClicked() {
             SqueezeServer.pauseButton( mainScreen.isPaused)
-            console.log("pause button clicked:", "paused is:", mainScreen.isPaused )
+            // console.log("pause button clicked:", "paused is:", mainScreen.isPaused )
         }
     }
 
@@ -206,16 +223,16 @@ Window {
 
             onDrawerClose: {
                 if( setupDrawer.saveInfo === true) {
-                    console.log("true")
+                    // console.log("true")
                     mainWindow.serverIP = setupDrawer.serverIP
                     mainWindow.cliPort = setupDrawer.cliPort
                     mainWindow.jsonPort = setupDrawer.jsonPort
                     mainWindow.currentPlayerName = setupDrawer.playerName
                     mainWindow.currentPlayerMac = setupDrawer.playerList.get(setupDrawer.playerIndex).key
-                    console.log("selected player:", mainWindow.currentPlayerName, mainWindow.currentPlayerMac)
-                    console.log("Server IP:", mainWindow.serverIP)
+                    // console.log("selected player:", mainWindow.currentPlayerName, mainWindow.currentPlayerMac)
+                    // console.log("Server IP:", mainWindow.serverIP)
                 } else {
-                    console.log("false", setupDrawer.saveInfo)
+                    // console.log("false", setupDrawer.saveInfo)
                 }
                 drawer.close()
             }

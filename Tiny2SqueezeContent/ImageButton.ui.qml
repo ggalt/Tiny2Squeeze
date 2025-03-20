@@ -17,7 +17,7 @@ Image {
         }
 
         // onClicked: {
-        //     console.log("image button clicked")
+        //     // console.log("image button clicked")
         //     imageButton.imageClicked()
         // }
     }

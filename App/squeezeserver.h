@@ -97,7 +97,8 @@ signals:
     void setUIMute( bool muted );
     void setUIPlayMode( QString mode );
     void setUIVolume( int vol );
-    void setUISongDuration( double time );
+    void setUISongProgress( double duration, double time );
+    void setUISongTime( double time );
 
     void setCoverImage( QString imageURL );
     void setSongTitle( QString songTitle );

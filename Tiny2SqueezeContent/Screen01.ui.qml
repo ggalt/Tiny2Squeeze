@@ -22,7 +22,7 @@ Rectangle {
     signal pauseBtnClicked
     signal forwardBtnClicked
     signal muteBtnClicked
-    signal playerVolumeChanged( int vol )
+    signal playerVolumeChanged(int vol)
 
     property alias artworkID: coverImage.source
     property alias artist: artistRect.text
@@ -32,7 +32,7 @@ Rectangle {
     property alias isPaused: pauseBtn.paused
     property alias volume: volumeSlider.value
     property alias songProgress: progressBar.value
-
+    property alias songTimeRemaining: songTimeLabel.text
 
     ImageButton {
         id: coverImage
@@ -190,11 +190,20 @@ Rectangle {
     ProgressBar {
         id: progressBar
         value: 0.5
-        height: artistRect.height / 4
+        height: (3 * artistRect.height) / 8
 
         anchors.left: coverImage.right
         anchors.right: parent.right
-        anchors.bottom: controlsRect.top
+        anchors.top: albumRect.bottom
+
+        Label {
+            id: songTimeLabel
+            text: tinySqueezeScreen.songTimeRemaining
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            color: "black"
+        }
     }
 
     Slider {
@@ -202,13 +211,13 @@ Rectangle {
         value: 0.5
         anchors.left: coverImage.right
         anchors.right: parent.right
-        anchors.top: albumRect.bottom
-        anchors.bottom: progressBar.top
+        anchors.top: progressBar.bottom
+        anchors.bottom: controlsRect.top
         live: false
         Connections {
             target: volumeSlider
             function onValueChanged() {
-                tinySqueezeScreen.playerVolumeChanged( volumeSlider.value * 100)
+                tinySqueezeScreen.playerVolumeChanged(volumeSlider.value * 100)
             }
         }
     }

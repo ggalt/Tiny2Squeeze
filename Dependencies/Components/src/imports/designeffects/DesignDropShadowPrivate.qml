@@ -54,7 +54,7 @@ Item {
     width: root.source.width
     height: root.source.height
 
-    //Component.onCompleted: console.log("Drop Shadow created!")
+    //Component.onCompleted: // console.log("Drop Shadow created!")
 
     onSourceRotationChanged: root.calculateOffset()
     onRadiusCeiledChanged: root.calculateOffset()

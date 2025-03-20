@@ -8,11 +8,11 @@
 #include <QStringList>
 
 
-// #ifdef SQUEEZESERVER_DEBUG
+#ifdef SQUEEZESERVER_DEBUG
 #define DEBUGF(...) qDebug() << this->objectName() << Q_FUNC_INFO << __VA_ARGS__;
-// #else
-// #define DEBUGF(...)
-// #endif
+#else
+#define DEBUGF(...)
+#endif
 
 QRegularExpression SqueezeServer::macRegex = QRegularExpression("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
 
@@ -24,13 +24,13 @@ SqueezeServer::SqueezeServer(QObject *parent, QQmlApplicationEngine *myEngine)
 
     tock.setInterval(1000);
     tock.start();
-    qDebug() << "create server";
+    DEBUGF("create server");
 }
 
 void SqueezeServer::init(QString t_serverAddress, QString t_jsonPort, QString t_cliPort)
 {
     DEBUGF("SQUEEZESERVER INIT");
-    qDebug() << "SQUEEZESERVER INIT";
+    DEBUGF("SQUEEZESERVER INIT");
     m_ServerAddress = t_serverAddress;
     m_jsonPort = t_jsonPort;
     m_cliPort = t_cliPort;
@@ -133,7 +133,8 @@ void SqueezeServer::processStatusJson(QJsonValue result)
                        playlistLoop[0]["artist"].toString() );
     setPlayerMode(result[ "mode"].toString());
     emit setUIVolume( result[ "mixer volume"].toInt());
-    emit setUISongDuration( result[ "duration" ].toDouble());
+    emit setUISongProgress( result[ "duration" ].toDouble(), result[ "time" ].toDouble() );
+    DEBUGF("Duration:" << result[ "duration" ].toDouble() << "Song Time:" result[ "time" ].toDouble() );
 }
 
 bool SqueezeServer::hasMacAddress(QString mac)

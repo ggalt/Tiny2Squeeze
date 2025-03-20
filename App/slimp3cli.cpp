@@ -8,11 +8,11 @@
 #include <chrono>
 #include <thread>
 
-// #ifdef SLIMCLI_DEBUG
+#ifdef SLIMCLI_DEBUG
 #define DEBUGF(...) qDebug() << this->objectName() << Q_FUNC_INFO << __VA_ARGS__;
-// #else
-// #define DEBUGF(...)
-// #endif
+#else
+#define DEBUGF(...)
+#endif
 
 
 Slimp3CLI::Slimp3CLI(QObject *parent, QString serverAdd, QString cliport)
