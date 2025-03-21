@@ -67,6 +67,7 @@ public slots:
     // void receiveJSONResponse(QByteArray msg);
 
     void init(QString t_serverAddress, QString t_jsonPort, QString t_cliPort);
+    void serverConnectionFailed();
 
     void pauseButton(bool isPaused);
     void forwardButton();

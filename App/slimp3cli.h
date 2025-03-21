@@ -35,8 +35,8 @@ signals:
     void initialized();
     void ResponseReady(QByteArray msg);
 
-
     void isConnectedChanged();
+    void connectionFailed();
 
 public slots:
     void sendCommand( QByteArray cmd );

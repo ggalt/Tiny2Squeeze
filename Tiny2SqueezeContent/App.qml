@@ -25,6 +25,30 @@ Window {
     property real songDuration: 0.01    // avoid a divide by zero error
     property real songTime: 0.0
 
+    Dialog {
+        id: warningDialog
+        title: "Server Connection Failed"
+        modal: true
+        width: 4*mainWindow.width/5
+        height: 4*mainWindow.height/5
+
+        contentItem: Text {
+            text: "Do you want to proceed?"
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        DialogButtonBox {
+            standardButtons: DialogButtonBox.Retry | DialogButtonBox.Abort
+
+            onAccepted: console.log("Retry clicked")
+            onRejected: console.log("Abort clicked")
+        }
+
+        // onAccepted: console.log("User accepted")
+        // onRejected: console.log("User canceled")
+
+    }
+
 
     signal initializeServer(string m_serverIP, string m_jsonPort, string m_cliPort)
 
@@ -43,6 +67,11 @@ Window {
             mainScreen.songProgress = songTime / songDuration
 
             function formatTime(totalSeconds) {
+                if( totalSeconds < -1 ) {
+                    songTimer.running = false
+                    return "00:00"
+                }
+
                 const minutes = Math.floor(totalSeconds / 60);
                 const seconds = Math.floor(totalSeconds % 60);
                 return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -78,7 +107,8 @@ Window {
     Connections {
         target: SqueezeServer
         onServerInitFailed: {
-            mainWindow.openDrawer()
+            warningDialog.open()
+            // mainWindow.openDrawer()
         }
     }
 

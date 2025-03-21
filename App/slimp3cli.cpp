@@ -118,6 +118,9 @@ void Slimp3CLI::ConnectionError(QAbstractSocket::SocketError m_err)
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
         requestCount++;
         Connect();
+    } else {
+        DEBUGF( "CONNECTION ERROR!! " << m_err);
+        emit connectionFailed();
     }
 }
 

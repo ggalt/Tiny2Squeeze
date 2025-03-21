@@ -45,6 +45,13 @@ void SqueezeServer::init(QString t_serverAddress, QString t_jsonPort, QString t_
 
 }
 
+void SqueezeServer::serverConnectionFailed()
+{
+    // do something!!
+    emit serverInitFailed();
+
+}
+
 QString SqueezeServer::ServerAddress() const
 {
     return m_ServerAddress;
@@ -134,7 +141,7 @@ void SqueezeServer::processStatusJson(QJsonValue result)
     setPlayerMode(result[ "mode"].toString());
     emit setUIVolume( result[ "mixer volume"].toInt());
     emit setUISongProgress( result[ "duration" ].toDouble(), result[ "time" ].toDouble() );
-    DEBUGF("Duration:" << result[ "duration" ].toDouble() << "Song Time:" result[ "time" ].toDouble() );
+    DEBUGF("Duration:" << result[ "duration" ].toDouble() << "Song Time:" << result[ "time" ].toDouble() );
 }
 
 bool SqueezeServer::hasMacAddress(QString mac)

@@ -195,15 +195,16 @@ Rectangle {
         anchors.left: coverImage.right
         anchors.right: parent.right
         anchors.top: albumRect.bottom
+    }
 
-        Label {
-            id: songTimeLabel
-            text: tinySqueezeScreen.songTimeRemaining
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 5
-            color: "black"
-        }
+    Label {
+        id: songTimeLabel
+        text: tinySqueezeScreen.songTimeRemaining
+        anchors.verticalCenter: progressBar.verticalCenter
+        anchors.right: progressBar.right
+        anchors.rightMargin: 5
+        color: "black"
+        z: 10
     }
 
     Slider {
